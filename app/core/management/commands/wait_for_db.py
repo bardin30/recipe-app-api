@@ -11,12 +11,12 @@ class Command(BaseCommand):
     """Django command to wait for the database to be available."""
 
     def handle(self, *args, **options):
-        """Handle the command."""
+        """Handle the command.  This is the entry point for the command."""
         self.stdout.write("Waiting for database...")
         db_up = False
         while db_up is False:
             try:
-                self.check(database=["default"])
+                self.check(databases=["default"])
                 db_up = True
             except (psycopg2_error, OperationalError):
                 self.stdout.write("Database unavailable, waiting 1 second...")
