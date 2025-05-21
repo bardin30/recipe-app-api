@@ -108,4 +108,3 @@ class PublicUserApiTests(TestCase):
         data = res.json()
         self.assertNotIn('token', data)
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
-
