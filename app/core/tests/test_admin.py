@@ -8,24 +8,24 @@ from django.test import Client
 
 
 class AdminSiteTests(TestCase):
-    """Tests for the Django admin modifications."""
+    """Tests for Django admin."""
 
     def setUp(self):
-        """create a user and client for testing."""
+        """Create user and client."""
         self.client = Client()
         self.admin_user = get_user_model().objects.create_superuser(
             email='admin@example.com',
             password='testpass123',
-        )
+        )  # type: ignore
         self.client.force_login(self.admin_user)
-        self.user = get_user_model().objects.create_user(
+        self.user = get_user_model().objects.create_user(  # type: ignore
             email='user@example.com',
             password='testpass123',
-            name='Test User',
+            name='Test User'
         )
 
-    def test_users_listed(self):
-        """Test that users are listed on the user page."""
+    def test_users_lists(self):
+        """Test that users are listed on page."""
         url = reverse('admin:core_user_changelist')
         res = self.client.get(url)
 
@@ -33,7 +33,7 @@ class AdminSiteTests(TestCase):
         self.assertContains(res, self.user.email)
 
     def test_edit_user_page(self):
-        """Test that the edit user page works."""
+        """Test the edit user page works."""
         url = reverse('admin:core_user_change', args=[self.user.id])
         res = self.client.get(url)
 

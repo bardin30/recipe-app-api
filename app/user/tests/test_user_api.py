@@ -92,4 +92,20 @@ class PublicUserApiTests(TestCase):
             'password': 'badpass',
             }
         res = self.client.post(TOKEN_URL, payload)
+
+        data = res.json()
+        self.assertNotIn('token', data)
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_create_token_blank_password(self):
+        """Test posting a blank password returns an error."""
+        payload = {
+            'email': 'test@example.com',
+            'password': '',
+            }
+        res = self.client.post(TOKEN_URL, payload)
+
+        data = res.json()
+        self.assertNotIn('token', data)
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
